@@ -20,7 +20,7 @@ function playerPlay() {
   return playerSelection;
 }
 
-function playRound() {
+function playRound(computerPlay, playerPlay) {
   let computerChoice = computerPlay();
   let playerChoice = playerPlay();
 
@@ -30,10 +30,10 @@ function playRound() {
   if (playerChoice === computerChoice) {
     return "It's a tie!";
   } else if (playerChoice === beatenBy[computerChoice]) {
-    return "Player wins!";
+    return capitalizer(`${playerChoice} beats ${computerChoice}! You win!`);
   } else {
-    return "Computer wins!"
+    return capitalizer(`${computerChoice} beats ${playerChoice}! You lose! `);
   }
 }
 
-console.log(playRound());
+console.log(playRound(computerPlay, playerPlay));
