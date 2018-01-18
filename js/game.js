@@ -20,7 +20,11 @@ function letComputerPlay() {
 }
 
 function letPlayerPlay() {
-  let playerSelection = prompt("Rock, paper, scissors?").toLowerCase();
+  let playerSelection = prompt("Rock, paper, scissors?");
+
+  if (playerSelection) {
+    playerSelection = playerSelection.toLowerCase();
+  }
 
   if (APPROVED_CHOICES.indexOf(playerSelection) !== -1) {
     return playerSelection;
