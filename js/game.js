@@ -1,12 +1,9 @@
-const APPROVED_CHOICES = ['rock', 'paper', 'scissors'];
 const BEATEN_BY = {
   'rock': 'paper',
   'paper': 'scissors',
   'scissors': 'rock'
 }
 
-let playerWins = 0;
-let computerWins = 0;
 let gameOver = false;
 
 function letComputerPlay() {
@@ -15,30 +12,25 @@ function letComputerPlay() {
     0: "rock",
     1: "paper",
     2: "scissors"
-  }
+  };
   return choice[randomNumber];
 }
 
-function letPlayerPlay() {
-  let playerSelection = prompt("Rock, paper, scissors?");
+function increaseScore(roundWinner) {
+  const winner = document.querySelector(`.${roundWinner} span`);
+  winner.textContent = +winner.textContent + 1;
 
-  if (playerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-  }
-
-  if (APPROVED_CHOICES.indexOf(playerSelection) !== -1) {
-    return playerSelection;
-  }
-  else {
-    console.log("Wrong entry!");
-    playerSelection = letPlayerPlay();
-    return playerSelection;
+  if (winner.textContent == 5) {
+    const container = document.querySelector('body');
+    const endOfGame = document.createElement('div');
+    endOfGame.textContent = `The game is over! The winner is ${winner.parentElement.className}.`
+    container.appendChild(endOfGame);
   }
 }
 
 function playRound(computerPlay, playerPlay) {
-  const computerChoice = computerPlay();
-  const playerChoice = playerPlay();
+  const computerChoice = letComputerPlay();
+  const playerChoice = playerPlay;
 
   console.log(playerChoice);
   console.log(computerChoice);
@@ -47,34 +39,17 @@ function playRound(computerPlay, playerPlay) {
     console.log("It's a tie!");
   } 
   else if (playerChoice === BEATEN_BY[computerChoice]) {
-    playerWins++;
+    increaseScore('player');
     console.log(capitalize(`${playerChoice} beats ${computerChoice}! You win!`));
   } 
   else {
-    computerWins++
+    increaseScore('computer');
     console.log(capitalize(`${computerChoice} beats ${playerChoice}! You lose!`));
   }
 }
 
-function playGame() {
-  let winner = undefined;
-
-  while (!gameOver) {
-    playRound(letComputerPlay, letPlayerPlay);
-
-    if (playerWins === 5) {
-      winner = "player";
-      gameOver = true;
-    } 
-    else if (computerWins === 5) {
-      winner = "computer";
-      gameOver = true;
-    } 
-    else {
-      console.log(`Current result:\n\tcomputer: ${computerWins}\n\tplayer: ${playerWins}`);
-    }
-  }
-  console.log(`The winner is ${winner}!`)
-}
-
-playGame();
+var playerChoice = document.querySelector('.player');
+playerChoice.addEventListener('click', function(event) {
+  let playerChoice = event.target.textContent;
+  playRound(letComputerPlay, playerChoice);
+});
