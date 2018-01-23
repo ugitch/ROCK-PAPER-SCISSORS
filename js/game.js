@@ -1,3 +1,4 @@
+const GAME_OVER = 5;
 const BEATEN_BY = {
   'rock': 'paper',
   'paper': 'scissors',
@@ -6,18 +7,15 @@ const BEATEN_BY = {
 
 let gameOver = false;
 
+
 function letComputerPlay() {
-  let randomNumber = Math.floor(Math.random() * 3); 
-  let choice = {
-    0: "rock",
-    1: "paper",
-    2: "scissors"
-  };
+  let choice = ["rock", "paper", "scissors"];
+  let randomNumber = Math.floor(Math.random() * choice.length); 
   return choice[randomNumber];
 }
 
 function doWeHaveWinner(winner) {
-  if (winner.textContent == 5) {
+  if (winner.textContent == GAME_OVER) {
     gameOver = true;
     const container = document.querySelector('body');
     const endOfGame = document.createElement('div');
@@ -33,11 +31,10 @@ function increaseScore(roundWinner) {
   doWeHaveWinner(winner);
 }
 
-function play(playerPlay, letComputerPlay) {
+function play(playerPlay, computer) {
   if (!gameOver) {
-    const computerPlay = letComputerPlay();
-    // const playerChoice = playerPlay;
-
+    const computerPlay = computer();
+   
     if (playerPlay === computerPlay) {
       console.log("It's a tie!");
     } 
@@ -45,13 +42,13 @@ function play(playerPlay, letComputerPlay) {
       increaseScore('player');
     } 
     else {
-      increaseScore('computer');
+      increaseScore('computer');    
     }
   }
 }
 
-var playerChoice = document.querySelector('.player');
-playerChoice.addEventListener('click', function(event) {
-  let playerChoice = event.target.textContent;
-  play(playerChoice, letComputerPlay);
+var playerPlay = document.querySelector('.player');
+playerPlay.addEventListener('click', function(event) {
+  let player = event.target.textContent;
+  play(player, letComputerPlay);
 });
