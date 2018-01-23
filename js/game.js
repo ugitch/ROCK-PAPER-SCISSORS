@@ -16,11 +16,9 @@ function letComputerPlay() {
   return choice[randomNumber];
 }
 
-function increaseScore(roundWinner) {
-  const winner = document.querySelector(`.${roundWinner} span`);
-  winner.textContent = +winner.textContent + 1;
-
+function doWeHaveWinner(winner) {
   if (winner.textContent == 5) {
+    gameOver = true;
     const container = document.querySelector('body');
     const endOfGame = document.createElement('div');
     endOfGame.textContent = `The game is over! The winner is ${winner.parentElement.className}.`
@@ -28,28 +26,32 @@ function increaseScore(roundWinner) {
   }
 }
 
-function playRound(computerPlay, playerPlay) {
-  const computerChoice = letComputerPlay();
-  const playerChoice = playerPlay;
+function increaseScore(roundWinner) {
+  const winner = document.querySelector(`.${roundWinner} span`);
+  winner.textContent = +winner.textContent + 1;
 
-  console.log(playerChoice);
-  console.log(computerChoice);
+  doWeHaveWinner(winner);
+}
 
-  if (playerChoice === computerChoice) {
-    console.log("It's a tie!");
-  } 
-  else if (playerChoice === BEATEN_BY[computerChoice]) {
-    increaseScore('player');
-    console.log(capitalize(`${playerChoice} beats ${computerChoice}! You win!`));
-  } 
-  else {
-    increaseScore('computer');
-    console.log(capitalize(`${computerChoice} beats ${playerChoice}! You lose!`));
+function play(playerPlay, letComputerPlay) {
+  if (!gameOver) {
+    const computerPlay = letComputerPlay();
+    // const playerChoice = playerPlay;
+
+    if (playerPlay === computerPlay) {
+      console.log("It's a tie!");
+    } 
+    else if (playerPlay === BEATEN_BY[computerPlay]) {
+      increaseScore('player');
+    } 
+    else {
+      increaseScore('computer');
+    }
   }
 }
 
 var playerChoice = document.querySelector('.player');
 playerChoice.addEventListener('click', function(event) {
   let playerChoice = event.target.textContent;
-  playRound(letComputerPlay, playerChoice);
+  play(playerChoice, letComputerPlay);
 });
