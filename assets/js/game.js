@@ -14,21 +14,21 @@ function letComputerPlay() {
   return CHOICE_OF_PLAY[randomNumber];
 }
 
-function doWeHaveWinner(winner) {
-  if (winner.textContent == WIN_POINTS) {
+function doWeHaveWinner(winnerScore) {
+  if (winnerScore.textContent == WIN_POINTS) {
     gameOver = true;
     const container = document.querySelector('body');
     const endOfGame = document.createElement('h2');
-    endOfGame.textContent = `The game is over! The winner is ${winner.parentElement.id}.`
+    endOfGame.textContent = `The game is over! The winner is ${winnerScore.parentElement.id}.`
     container.appendChild(endOfGame);
   }
 }
 
 function increaseScore(roundWinner) {
-  const winner = document.querySelector(`${roundWinner} .score`);
-  winner.textContent = +winner.textContent + 1;
+  const winnerScore = document.querySelector(`${roundWinner} .score`);
+  winnerScore.textContent = +winnerScore.textContent + 1;
 
-  doWeHaveWinner(winner);
+  doWeHaveWinner(winnerScore);
 }
 
 function play(playerChoice, computer) {
@@ -40,7 +40,6 @@ function play(playerChoice, computer) {
    
     if (playerChoice === computerChoice) {
       console.log("It's a tie!");
-      return;
     } 
     else if (playerChoice === BEATEN_BY[computerChoice]) {
       console.log(capitalize(`${playerChoice} beats ${computerChoice}!`));
